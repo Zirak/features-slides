@@ -11,7 +11,7 @@
      .font-loaded .reveal .slides {
          font-family: 'Monsterrat', sans-serif;
      }
-     .font-loaded .reveal .slides h1, .font-loaded .reveal .slides h2, .font-loaded .reveal .slides h3 {
+     .font-loaded .reveal .slides h1, .font-loaded .reveal .slides h2, .font-loaded .reveal .slides h3, .font-loaded .reveal .slides h4 {
          font-family: 'Playfair Display', serif;
      }
      .reveal .slides a {
@@ -20,11 +20,6 @@
      .reveal .slides pre {
          margin-top: 10px;
          margin-bottom: 10px;
-     }
-     .reveal .magic-center {
-         position: absolute;
-         top: 0; bottom: 0; right: 0; left: 0;
-         margin: auto;
      }
     </style>
 
@@ -245,9 +240,9 @@ usp.getAll("foo"); // ["bar", "baz"]
 
             <section>
                 <section id="observers" data-markdown>
-                    ## Intersection Observer
+                    ## IntersectionObserver
 
-                    * Like MutationObserver, but for element visibility
+                    * Like `MutationObserver`, but for element visibility
                     * [Overview](https://davidwalsh.name/intersection-observers)
                     * [More overview](https://github.com/w3c/IntersectionObserver/blob/master/explainer.md)
                     * [Even more overview](https://alligator.io/js/intersection-observer)
@@ -301,7 +296,7 @@ usp.getAll("foo"); // ["bar", "baz"]
 
             <section>
                 <section data-markdown id="dialog">
-                    ## `dialog` element
+                    ## dialog element
                     
                     * Create modals/overlays the way w3c intended
                     * [Overview](https://keithjgrant.com/posts/2018/meet-the-new-dialog-element/)
@@ -310,7 +305,7 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
                 
                 <section data-markdown>
-                    ## `datalist` element
+                    ## datalist element
                     
                     * `input` suggestion list
                         * Like a searchable dropdown
@@ -361,7 +356,7 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
                 
                 <section data-markdown>
-                    ## `inert` attribute
+                    ## inert attribute
                     
                     * "Disable" interaction with an element
                     * WIP, watch alongside [`blockingElements`](https://github.com/whatwg/html/issues/897)
@@ -372,7 +367,7 @@ usp.getAll("foo"); // ["bar", "baz"]
             </section>
             
             <section id="rIC" data-markdown>
-                ## `requestIdleCallback`
+                ## requestIdleCallback
                 
                 * Ever needed another timer API?
                 * Schedules task for next browser *idle* time
@@ -383,7 +378,7 @@ usp.getAll("foo"); // ["bar", "baz"]
             </section>
             
             <section id="offscreen-canvas" data-markdown>
-                ## `OffscreenCanvas`
+                ## OffscreenCanvas
                 
                 * DOM-less canvas
                 * Send a canvas to a worker for off-main-thread rendering
