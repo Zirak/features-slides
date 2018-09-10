@@ -1,0 +1,443 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Fantastic APIs and Where to Find Them | Zirak</title>
+
+    <style>
+     .reveal .slides {
+         font-size: 75%;
+         font-family: sans-serif;
+     }
+     .font-loaded .reveal .slides {
+         font-family: 'PT Sans', sans-serif;
+     }
+     .font-loaded .reveal .slides h1, .font-loaded .reveal .slides h3 {
+         font-family: 'PT Serif', serif;
+     }
+     .reveal .slides a {
+         color: #3e61c5;
+     }
+     .reveal .slides pre {
+         margin-top: 10px;
+         margin-bottom: 10px;
+     }
+     .reveal .magic-center {
+         position: absolute;
+         top: 0; bottom: 0; right: 0; left: 0;
+         margin: auto;
+     }
+     
+     b#list-of-contents > ul > li {
+         display: inline-block;
+         padding: 6px 12px;
+     }
+     b#list-of-contents > ul > li::before {
+         content: '•';
+     }
+     
+     a#list-of-contents > ul {
+         display: flex;
+         flex-direction: column;
+         flex-wrap: wrap;
+         height: 100px;
+     }
+     a#list-of-contents > ul > li {
+     }
+    </style>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/serif.css">
+    <link rel="stylesheet" href="css/solarized-light.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-markdown>
+                # Fantastic APIs and Where to Find Them
+            </section>
+
+            <section>
+                <h3>whoami</h3>
+                <img src="images/awesome.png" width="256" height="256" style="border: 0; float: right; box-shadow: initial;" />
+                <ul>
+                    <li>Zirak</li>
+                    <li>I like JS</li>
+                    <li><a href="http://zirak.me">http://zirak.me</a></li>
+                    <p>&nbsp;</p>
+                    <li>Did I forget to record my screen?</li>
+                    <li>But enough about me</li>
+                </ul>
+            </section>
+
+            <section id="list-of-contents">
+                <ul>
+                    <li><a href="#crypto">crypto</a></li>
+                    <li><a href="#i18n">Internationalization</a></li>
+                    <li><a href="#urls">URL / URLSearchParams</a></li>
+                    <li><a href="#messaging">Message Channels</a></li>
+
+                    <li><a href="#observers">Intersection/Resize Observers</a></li>
+                    <li><a href="#credentials">Credential Management</a></li> 
+                    <li><a href="#payments">Payments</a></li>
+                    <li><a href="#dioalog">dialog element</a>
+                    <li>datalist
+                    <li>requestIdleCallback
+
+                    <li><a href="#mobile">Mobile-centric APIs</a></li>
+
+                    <li>OfflineCanvas?
+                    <li>Atomics?
+                    <li>Temporal API (new Date) https://github.com/tc39/proposal-temporal
+                    <li>Object.fromEntries
+                    <li>RegExp extra properties?
+                    <li>Houdini
+                    <li>...worklets?
+                </ul>
+            </section>
+
+            <section id="crypto">
+                <section data-markdown>
+                    ## crypto
+
+                    * (A)Symmetric encryption
+                    * Hashing
+                    * Signing
+                    * Randomness
+                    * So much more
+
+                    * [Overview](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/Crypto)
+                    * [Spec](https://www.w3.org/TR/WebCryptoAPI/)
+                </section>
+
+                <section data-markdown>
+                    ```javascript
+const plain = new TextEncoder().encode('my hovercracft is full of eels');
+const password = new TextEncoder().encode('hunter2');
+const iv = crypto.getRandomValues(new Uint8Array(16));
+
+const algo = { name: 'AES-CBC', iv };
+
+const key = await crypto.subtle.importKey(
+    'raw',
+    await crypto.subtle.digest('SHA-256', password),
+    algo,
+    false, ['encrypt', 'decrypt']);
+
+const cipher = await crypto.subtle.encrypt(algo, key, plain);
+console.log('oh no, what does this mean?', new TextDecoder('utf8').decode(cipher));
+console.log('Let us find out!');
+
+const plainAgain = await crypto.subtle.decrypt(algo, key, cipher);
+console.log(new TextDecoder('utf8').decode(plainAgain));
+                    ```
+                </section>
+            </section>
+
+            <section id="18n">
+                <section data-markdown>
+                    ## i18n
+
+                    * Been around for a while
+                    * Highly esoteric
+                    * Can be used for some useful hacks
+                </section>
+
+                <section data-markdown>
+                    ### Sorting strings
+
+                    ```javascript
+                    var arr = ['10', '2', '1', '20'];
+                    arr.sort();
+                    // [ "1", "10", "2", "20" ]
+
+                    arr.sort(new Intl.Collator('en', { numeric: true }).compare)
+                    // [ "1", "2", "10", "20" ]
+                    ```
+                </section>
+
+                <section data-markdown>
+                    ### date `strptime`
+
+                    ```javascript
+                    var d = new Date(Date.UTC(2018, 8, 12, 18, 0, 0));
+                    var formatter = new Intl.DateTimeFormat('en-US', {
+                        timeZone: 'UTC',
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        timeZoneName: 'long'
+                    });
+                    formatter.format(d);
+                    // "September 2018 Wednesday, GMT"
+                    formatter.formatToParts(d); // =>
+                    [
+                        {"type":"month","value":"September"},
+                        {"type":"literal","value":" "},
+                        {"type":"year","value":"2018"},
+                        {"type":"literal","value":" "},
+                        ...
+                    ]
+                    ```
+                </section>
+                <section data-markdown>
+                    ### Number formatting
+
+                    ```javascript
+                    new Intl.NumberFormat(navigator.language, { style: 'percent'}).format(0.2);
+                    // 20%
+
+                    new Intl.NumberFormat(navigator.language,{
+                        style: 'decimal',
+                        minimumSignificantDigits: 10
+                    }).format(1111.2);
+                    // "1,111.200000"
+                    ```
+                </section>
+            </section>
+
+            <section id="urls">
+                <section data-markdown>
+                    ## URL constructors
+
+                    * `URL` and `URLSearchParams`
+                    * Used for parsing/stringifying URLs
+                    * Huzzah!
+                </section>
+
+                <section data-markdown>
+```javascript
+var url = new URL("http://foo:bar@host.com:8080/path?a=b#c");
+({​
+    hash: "#c",
+    host: "host.com:8080",
+    hostname: "host.com",
+    href: "http://foo:bar@host.com:8080/path?a=b#c",
+    origin: "http://host.com:8080",
+    password: "bar",
+    pathname: "/path",
+    port: "8080",
+    protocol: "http:",
+    search: "?a=b",
+    searchParams: URLSearchParams {  },
+    username: "foo"
+})
+
+url.hostname = "ermergerd.org";
+url.toString(); // "http://foo:bar@ermergerd.org:8080/path?a=b#c"
+```
+
+```javascript
+var usp = new URLSearchParams("foo=bar&foo=baz&quz=klaz");
+usp.get("quz"); // "klaz"
+usp.getAll("foo"); // ["bar", "baz"]
+[...usp.entries()]; // [["foo", "bar"], ["foo", "baz"], ["quz", "klaz"]]
+```
+                </section>
+            </section>
+
+            <section id="messaging">
+                <section data-markdown>
+                    ## Message Channel
+
+                    * Channel for cross-origin communication
+                        * Think `postMessage`, but less global
+                    * Can be passed along `postMessage`
+                        * So not only iframes, but also WebWorkers
+                    * [Demo](https://mdn.github.io/dom-examples/channel-messaging-multimessage/)
+                    * [Overview](https://developer.mozilla.org/en-US/docs/Web/API/Channel_Messaging_API/Using_channel_messaging)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/MessageChannel)
+                    * [Spec](https://html.spec.whatwg.org/multipage/web-messaging.html#channel-messaging)
+                </section>
+
+                <section data-markdown>
+                    ## BroadcastChannel
+
+                    * Channel for same-origin communication
+                    * Cross-tab, cross-iframe
+                    * Nothing more, nothing less
+                        * More lightweight than Service Workers
+                        * Strictly same origin unlike `MessageChannel`
+                    * [Overview](https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/BroadcastChannel)
+                    * [Spec](https://html.spec.whatwg.org/multipage/web-messaging.html#broadcasting-to-other-browsing-contexts)
+                </section>
+
+                <section>
+                    XXX Imagine this is an example, ain't it great?
+                </section>
+            </section>
+
+            <section id="observers">
+                <section data-markdown>
+                    ## Intersection Observer
+
+                    * Like MutationObserver, but for element visibility
+                    * [Overview](https://davidwalsh.name/intersection-observers)
+                    * [More overview](https://github.com/w3c/IntersectionObserver/blob/master/explainer.md)
+                    * [Even more overview](https://alligator.io/js/intersection-observer)
+                    * [Wow another one?](https://www.smashingmagazine.com/2018/01/deferring-lazy-loading-intersection-observer-api/)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
+                    * [Spec](https://w3c.github.io/IntersectionObserver/)
+                </section>
+                
+                <section>
+                    <iframe height='500' scrolling='no' title='Hello IntersectionObserver' src='//codepen.io/tutsplus/embed/yppgrm/?height=265&theme-id=0&default-tab=result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/tutsplus/pen/yppgrm/'>Hello IntersectionObserver</a> by Envato Tuts+ (<a href='https://codepen.io/tutsplus'>@tutsplus</a>) on <a href='https://codepen.io'>CodePen</a>.
+                    </iframe>
+                </section>
+                
+                <section data-markdown>
+                    ## ResizeObserver
+                    * Like `IntersectionObserver`, but for element resize
+                    * Replaces hacks related to viewport & element resizing
+                    * [Overview](https://developers.google.com/web/updates/2016/10/resizeobserver)
+                    * [Explainer](https://github.com/WICG/ResizeObserver/blob/master/explainer.md)
+                    * No mdn page (yet!), great opportunity to contribute
+                    * [Spec](https://wicg.github.io/ResizeObserver/)
+                </section>
+
+                <section>
+                    <iframe height='500' scrolling="no" src="https://rawgit.com/WICG/ResizeObserver/master/examples/component.html" style="border: 2px inset black; width: 70%"></iframe>
+                </section>
+            </section>
+
+            <section id="credentials">
+                <section data-markdown>
+                    ## Credential Management
+
+                    * Move credential responsibility to browser
+                        * Builtin storage (Remember Me), handoff to native interface (Android), ...
+                    * Currently supports password, federated, and WebAuthN (pubkey)
+                    * [Demo](https://credential-management-sample.appspot.com/)
+                    * [Video](https://www.youtube.com/watch?v=NJ-sphu2DqQ)
+                    * [Reference](https://developers.google.com/web/fundamentals/security/credential-management/)
+                    * [Spec](https://w3c.github.io/webappsec-credential-management/)
+                </section>
+            </section>
+
+            <section id="payments">
+                <section data-markdown>
+                    ## Payment
+
+                    * Moves payment responsibility to browser
+                        * Credit card management, 3rd-party APIs
+                    * Can define your own payment endpoints w/ ServiceWorkers
+                    * Overview: [1](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API), [2](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API/Using_the_Payment_Request_API), [3 suite](https://rsolomakhin.github.io/pr/apps/)
+                    * Spec: [1](https://www.w3.org/TR/payment-request/), [2](https://w3c.github.io/payment-handler/)
+                </section>
+            </section>
+
+            <section id="mobile">
+                <section>
+                    <h2>Mobile-centric APIs</h2>
+                </section>
+
+                <section data-markdown>
+                    ### `navigator.connection`
+
+                    ```javascript
+                    navigator.connection.effectiveType;
+                    // "4g"
+
+                    navigator.connection.downlink;
+                    // bandwith estimate
+
+                    navigator.connection.type;
+                    // "wifi", "ethernet", ...
+
+                    nvaigator.connection.onchange = e =>
+                        console.log('network changed', e);
+                    ```
+
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection)
+                    * [Spec](http://wicg.github.io/netinfo/)
+                </section>
+                <section data-markdown>
+                    ### `navigator.share`
+
+                    ```javascript
+                    navigator.share({
+                        title: 'ermergerd such advances',
+                        text: 'Check out this poptart',
+                        url: 'http://nyan.cat'
+                    }).then(console.log).catch(console.error);
+                    ```
+
+                    * [Demo](https://mgiuca.github.io/web-share/demos/share.html)
+                    * [Overview](https://developers.google.com/web/updates/2016/09/navigator-share)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share)
+                    * [Spec](https://mgiuca.github.io/web-share/)
+                </section>
+
+                <section data-markdown>
+                    ### `window.visualViewport`
+
+                    * Actual viewport when pinch-zooming
+
+                    * [Demo](https://visual-viewport.glitch.me/)
+                    * [Article](https://developers.google.com/web/updates/2017/09/visual-viewport-api)
+                    * [Spec](https://wicg.github.io/visual-viewport/)
+                </section>
+            </section>
+            
+            <section id="dialog">
+                <section data-markdown>
+                    ## `dialog` element
+                    
+                    * Create modals/overlays the way w3c intended
+                    * [Overview](https://keithjgrant.com/posts/2018/meet-the-new-dialog-element/)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#Specifications)
+                    *  [Spec](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element)
+                </section>
+                
+                <section>
+                    
+                </section>
+            </section>
+            
+            <section>
+                <section data-markdown>
+                    ## Where to Find Them
+                    
+                    * WHATWG
+                        * [Repository](https://github.com/whatwg)
+                        * [Mailing list](https://whatwg.org/mailing-list)
+                        * [Incubator Repository](https://github.com/WICG)
+
+                    * Vendors
+                        * [Firefox Release notes](https://www.mozilla.org/en-US/firefox/releases/)
+                        * [Chrome Platform Status](https://www.chromestatus.com)
+                        * [Google Dev Updates](https://developers.google.com/web/updates/)
+                    
+                    * Community
+                      * :)
+               </section> 
+            </section>
+        </div>
+    </div>
+
+    <script src="js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+     Reveal.initialize({
+         controls: true,
+         progress: true,
+         history: true,
+         transition: 'slide',
+         dependencies: [
+             { src: 'plugin/markdown/marked.js' },
+             { src: 'plugin/markdown/markdown.js' },
+             { src: 'plugin/highlight/highlight.js', async: true, callback() { hljs.initHighlightingOnLoad(); } }
+         ]
+     });
+
+     const whyareyoureadingthisanddidyoufigureoutwhatthisvariableisnamed = document.createElement('link');
+     whyareyoureadingthisanddidyoufigureoutwhatthisvariableisnamed.href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif";
+     whyareyoureadingthisanddidyoufigureoutwhatthisvariableisnamed.rel="stylesheet";
+     whyareyoureadingthisanddidyoufigureoutwhatthisvariableisnamed.onload = () => document.body.classList.add('font-loaded');
+     document.head.appendChild(whyareyoureadingthisanddidyoufigureoutwhatthisvariableisnamed);
+    </script>
+</body>
+</html>
