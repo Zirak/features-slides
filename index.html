@@ -6,13 +6,12 @@
 
     <style>
      .reveal .slides {
-         font-size: 75%;
          font-family: sans-serif;
      }
      .font-loaded .reveal .slides {
          font-family: 'PT Sans', sans-serif;
      }
-     .font-loaded .reveal .slides h1, .font-loaded .reveal .slides h3 {
+     .font-loaded .reveal .slides h1, .font-loaded .reveal .slides h2, .font-loaded .reveal .slides h3 {
          font-family: 'PT Serif', serif;
      }
      .reveal .slides a {
@@ -281,8 +280,8 @@ usp.getAll("foo"); // ["bar", "baz"]
                 ## Credential Management
 
                 * Move credential responsibility to browser
-                    * Builtin storage (Remember Me), handoff to native interface (Android), ...
-                * Currently supports password, federated, and WebAuthN (pubkey)
+                    * Storage, native interfaces (Android), ...
+                * Currently supports password, federated, and WebAuthN
                 * [Demo](https://credential-management-sample.appspot.com/)
                 * [Video](https://www.youtube.com/watch?v=NJ-sphu2DqQ)
                 * [Reference](https://developers.google.com/web/fundamentals/security/credential-management/)
@@ -294,7 +293,7 @@ usp.getAll("foo"); // ["bar", "baz"]
 
                 * Moves payment responsibility to browser
                     * Credit card management, 3rd-party APIs
-                * Can define your own payment endpoints w/ ServiceWorkers
+                * Define your own endpoints w/ ServiceWorkers
                 * [Demo](https://rsolomakhin.github.io/pr/apps/)
                 * Overview: [1](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API), [2](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API/Using_the_Payment_Request_API)
                 * Spec: [1](https://www.w3.org/TR/payment-request/), [2](https://w3c.github.io/payment-handler/)
@@ -469,9 +468,8 @@ usp.getAll("foo"); // ["bar", "baz"]
             </section>
             
             
-            <section data-markdown>
+            <section data-markdown style="font-size: 80%">
                 ## Where to Find Them
-
                 * WHATWG
                     * [Repository](https://github.com/whatwg)
                     * [Mailing list](https://whatwg.org/mailing-list)
