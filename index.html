@@ -80,9 +80,8 @@
                     <li><a href="#observers">Intersection/Resize Observers</a></li>
                     <li><a href="#credentials">Credential Management</a></li> 
                     <li><a href="#payments">Payments</a></li>
-                    <li><a href="#dioalog">dialog element</a>
-                    <li>datalist
-                    <li>requestIdleCallback
+                    <li><a href="#dialog">dialog/datalist elements</a></li>
+                    <li><a href="#rIC">requestIdleCallback</a></li>
 
                     <li><a href="#mobile">Mobile-centric APIs</a></li>
 
@@ -328,6 +327,91 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
             </section>
 
+            <section>
+                <section data-markdown id="dialog">
+                    ## `dialog` element
+                    
+                    * Create modals/overlays the way w3c intended
+                    * [Overview](https://keithjgrant.com/posts/2018/meet-the-new-dialog-element/)
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#Specifications)
+                    *  [Spec](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element)
+                </section>
+                
+                <section data-markdown>
+                    ## `datalist` element
+                    
+                    * `input` suggestion list
+                        * Like a searchable dropdown
+                    * While `select` constraints input, `datalist` suggests
+                    
+                    * [Demo](https://demo.agektmr.com/datalist/)
+                    * [Overview](http://www.runoob.com/tags/tag-datalist.html) !?
+                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist)
+                    * [Spec](https://html.spec.whatwg.org/multipage/form-elements.html#the-datalist-element)
+                </section>
+                
+                <section id="dialog-demo">
+<dialog id="cool-dialog">
+    <h4>How would you rate your evening so far?</h4>
+    <input id="evening-rating" list="evening-ratings-list" />
+    <datalist id="evening-ratings-list">
+        <option value="5/5 Amazing" />
+        <option value="5/5 Incredible" />
+        <option value="5/5 Pain inducing laughter" />
+        <option value="5/5 Voted meetup of the year by the Jerusalem Prost" />
+        <option value="7/5 With rice" />
+    </datalist>
+</dialog>
+
+<button id="open-dialog">Nani!?</button>
+
+<script>
+{
+    const modal = document.getElementById('cool-dialog');
+    const input = document.getElementById('evening-rating');
+    
+    document.getElementById('open-dialog').addEventListener('click', () => {
+        modal.showModal();
+        
+        input.addEventListener('change', e => {
+            modal.close();
+            alert(`You are right, the evening is absolutely ${input.value}`);
+        });
+    });
+}
+</script>
+                </section>
+                
+                <section>
+                    <pre><code class="hljs" id="dialog-demo-code"></code></pre>
+                    <script>
+                    document.getElementById('dialog-demo-code').textContent = document.getElementById('dialog-demo').innerHTML;
+                    </script>
+                </section>
+                
+                <section data-markdown>
+                    ## `inert` attribute
+                    
+                    * "Disable" interaction with an element
+                    * WIP, watch alongside [`blockingElements`](https://github.com/whatwg/html/issues/897)
+                    * [Demo](https://wicg.github.io/inert/demo/)
+                    * [Overview](https://github.com/WICG/inert/blob/master/explainer.md)
+                    * [Spec](https://html.spec.whatwg.org/multipage/interaction.html#inert)
+                </section>
+            </section>
+            
+            <section>
+                <section id="rIC">
+                    ## `requestIdleCallback`
+                    
+                    * Ever needed another timer API?
+                    * Schedules task for next browser *idle* time
+                        * Compare `rAF`, schedules next *renderer* time
+                    * [Overview of timers](https://nolanlawson.com/2018/09/01/a-tour-of-javascript-timers-on-the-web/)
+                    * [Spec](https://w3c.github.io/requestidlecallback/)
+                </section>
+            </section>
+
             <section id="mobile">
                 <section>
                     <h2>Mobile-centric APIs</h2>
@@ -381,20 +465,6 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
             </section>
             
-            <section id="dialog">
-                <section data-markdown>
-                    ## `dialog` element
-                    
-                    * Create modals/overlays the way w3c intended
-                    * [Overview](https://keithjgrant.com/posts/2018/meet-the-new-dialog-element/)
-                    * [Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#Specifications)
-                    *  [Spec](https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element)
-                </section>
-                
-                <section>
-                    
-                </section>
-            </section>
             
             <section>
                 <section data-markdown>
