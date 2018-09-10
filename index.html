@@ -27,23 +27,6 @@
          top: 0; bottom: 0; right: 0; left: 0;
          margin: auto;
      }
-     
-     b#list-of-contents > ul > li {
-         display: inline-block;
-         padding: 6px 12px;
-     }
-     b#list-of-contents > ul > li::before {
-         content: '•';
-     }
-     
-     a#list-of-contents > ul {
-         display: flex;
-         flex-direction: column;
-         flex-wrap: wrap;
-         height: 100px;
-     }
-     a#list-of-contents > ul > li {
-     }
     </style>
 
     <link rel="stylesheet" href="css/reveal.css">
@@ -70,10 +53,10 @@
                 </ul>
             </section>
 
-            <section id="list-of-contents">
+            <section id="toc">
                 <ul>
                     <li><a href="#crypto">crypto</a></li>
-                    <li><a href="#i18n">Internationalization</a></li>
+                    <li><a href="#intl">Internationalization</a></li>
                     <li><a href="#urls">URL / URLSearchParams</a></li>
                     <li><a href="#messaging">Message Channels</a></li>
 
@@ -82,21 +65,15 @@
                     <li><a href="#payments">Payments</a></li>
                     <li><a href="#dialog">dialog/datalist elements</a></li>
                     <li><a href="#rIC">requestIdleCallback</a></li>
-
+                    <li><a href="#offscreen-canvas">OffscreenCanvas</a></li>
+                    <li><a href="#lazyload">Resource Lazyload</a></li>
+                    <li><a href="#temporal">JS Temporal API</a></li>
                     <li><a href="#mobile">Mobile-centric APIs</a></li>
-
-                    <li>OfflineCanvas?
-                    <li>Atomics?
-                    <li>Temporal API (new Date) https://github.com/tc39/proposal-temporal
-                    <li>Object.fromEntries
-                    <li>RegExp extra properties?
-                    <li>Houdini
-                    <li>...worklets?
                 </ul>
             </section>
 
-            <section id="crypto">
-                <section data-markdown>
+            <section>
+                <section id="crypto" data-markdown>
                     ## crypto
 
                     * (A)Symmetric encryption
@@ -104,7 +81,6 @@
                     * Signing
                     * Randomness
                     * So much more
-
                     * [Overview](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
                     * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/Crypto)
                     * [Spec](https://www.w3.org/TR/WebCryptoAPI/)
@@ -134,8 +110,8 @@ console.log(new TextDecoder('utf8').decode(plainAgain));
                 </section>
             </section>
 
-            <section id="18n">
-                <section data-markdown>
+            <section>
+                <section id="intl" data-markdown>
                     ## i18n
 
                     * Been around for a while
@@ -196,8 +172,8 @@ console.log(new TextDecoder('utf8').decode(plainAgain));
                 </section>
             </section>
 
-            <section id="urls">
-                <section data-markdown>
+            <section>
+                <section id="urls" data-markdown>
                     ## URL constructors
 
                     * `URL` and `URLSearchParams`
@@ -236,8 +212,8 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
             </section>
 
-            <section id="messaging">
-                <section data-markdown>
+            <section>
+                <section id="messaging" data-markdown>
                     ## Message Channel
 
                     * Channel for cross-origin communication
@@ -268,8 +244,8 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
             </section>
 
-            <section id="observers">
-                <section data-markdown>
+            <section>
+                <section id="observers" data-markdown>
                     ## Intersection Observer
 
                     * Like MutationObserver, but for element visibility
@@ -301,30 +277,27 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
             </section>
 
-            <section id="credentials">
-                <section data-markdown>
-                    ## Credential Management
+            <section id="credentials" data-markdown>
+                ## Credential Management
 
-                    * Move credential responsibility to browser
-                        * Builtin storage (Remember Me), handoff to native interface (Android), ...
-                    * Currently supports password, federated, and WebAuthN (pubkey)
-                    * [Demo](https://credential-management-sample.appspot.com/)
-                    * [Video](https://www.youtube.com/watch?v=NJ-sphu2DqQ)
-                    * [Reference](https://developers.google.com/web/fundamentals/security/credential-management/)
-                    * [Spec](https://w3c.github.io/webappsec-credential-management/)
-                </section>
+                * Move credential responsibility to browser
+                    * Builtin storage (Remember Me), handoff to native interface (Android), ...
+                * Currently supports password, federated, and WebAuthN (pubkey)
+                * [Demo](https://credential-management-sample.appspot.com/)
+                * [Video](https://www.youtube.com/watch?v=NJ-sphu2DqQ)
+                * [Reference](https://developers.google.com/web/fundamentals/security/credential-management/)
+                * [Spec](https://w3c.github.io/webappsec-credential-management/)
             </section>
 
-            <section id="payments">
-                <section data-markdown>
-                    ## Payment
+            <section id="payments" data-markdown>
+                ## Payment
 
-                    * Moves payment responsibility to browser
-                        * Credit card management, 3rd-party APIs
-                    * Can define your own payment endpoints w/ ServiceWorkers
-                    * Overview: [1](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API), [2](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API/Using_the_Payment_Request_API), [3 suite](https://rsolomakhin.github.io/pr/apps/)
-                    * Spec: [1](https://www.w3.org/TR/payment-request/), [2](https://w3c.github.io/payment-handler/)
-                </section>
+                * Moves payment responsibility to browser
+                    * Credit card management, 3rd-party APIs
+                * Can define your own payment endpoints w/ ServiceWorkers
+                * [Demo](https://rsolomakhin.github.io/pr/apps/)
+                * Overview: [1](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API), [2](https://developer.mozilla.org/en-US/docs/Web/API/Payment_Request_API/Using_the_Payment_Request_API)
+                * Spec: [1](https://www.w3.org/TR/payment-request/), [2](https://w3c.github.io/payment-handler/)
             </section>
 
             <section>
@@ -343,7 +316,6 @@ usp.getAll("foo"); // ["bar", "baz"]
                     * `input` suggestion list
                         * Like a searchable dropdown
                     * While `select` constraints input, `datalist` suggests
-                    
                     * [Demo](https://demo.agektmr.com/datalist/)
                     * [Overview](http://www.runoob.com/tags/tag-datalist.html) !?
                     * [Reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist)
@@ -400,20 +372,51 @@ usp.getAll("foo"); // ["bar", "baz"]
                 </section>
             </section>
             
-            <section>
-                <section id="rIC">
-                    ## `requestIdleCallback`
-                    
-                    * Ever needed another timer API?
-                    * Schedules task for next browser *idle* time
-                        * Compare `rAF`, schedules next *renderer* time
-                    * [Overview of timers](https://nolanlawson.com/2018/09/01/a-tour-of-javascript-timers-on-the-web/)
-                    * [Spec](https://w3c.github.io/requestidlecallback/)
-                </section>
+            <section id="rIC" data-markdown>
+                ## `requestIdleCallback`
+                
+                * Ever needed another timer API?
+                * Schedules task for next browser *idle* time
+                    * Compare `rAF`, schedules next *renderer* time
+                * [Overview of timers](https://nolanlawson.com/2018/09/01/a-tour-of-javascript-timers-on-the-web/)
+                * [Another nice overview](https://stackoverflow.com/a/44779316/617762)
+                * [Spec](https://w3c.github.io/requestidlecallback/)
+            </section>
+            
+            <section id="offscreen-canvas" data-markdown>
+                ## `OffscreenCanvas`
+                
+                * DOM-less canvas
+                * Send a canvas to a worker for off-main-thread rendering
+                * Perform weird canvas stuff in a worker
+                * [Overview](https://developers.google.com/web/updates/2018/08/offscreen-canvas)
+                * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas)
+                * [Spec](https://html.spec.whatwg.org/multipage/canvas.html#the-offscreencanvas-interface)
+            </section>
+            
+            <section id="lazyload" data-markdown>
+                ## Resource Lazyloading
+                
+                * As of time of writing, heavy WIP
+                * Defer (lazyload) iframes/images
+                * [Overview](https://calibreapp.com/blog/2018-08-16-native-lazy-load/)
+                * [Design document](https://docs.google.com/document/d/1e8ZbVyUwgIkQMvJma3kKUDg8UUkLRRdANStqKuOIvHg/edit#heading=h.fuqo94v1qejx)
+                * [Spec](https://whatpr.org/html/3752/urls-and-fetching.html#lazy-loading-attributes)
+            </section>
+            
+            <section id="temporal" data-markdown>
+                ## Temporal API
+                
+                * No more 1995-era Java-stolen Date API
+                * Different objects for date, time, ranges
+                * Immutable with sensible methods
+                * Suuuuper raw
+                * Rationale: [1](https://maggiepint.com/2017/04/09/fixing-javascript-date-getting-started/), [2](https://maggiepint.com/2017/04/11/fixing-javascript-date-web-compatibility-and-reality/)
+                * [Repo](https://github.com/tc39/proposal-temporal)
             </section>
 
-            <section id="mobile">
-                <section>
+            <section>
+                <section id="mobile">
                     <h2>Mobile-centric APIs</h2>
                 </section>
 
@@ -435,8 +438,9 @@ usp.getAll("foo"); // ["bar", "baz"]
                     ```
 
                     * [Reference](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection)
-                    * [Spec](http://wicg.github.io/netinfo/)
+                    * [Spec](https://wicg.github.io/netinfo/)
                 </section>
+
                 <section data-markdown>
                     ### `navigator.share`
 
@@ -458,7 +462,6 @@ usp.getAll("foo"); // ["bar", "baz"]
                     ### `window.visualViewport`
 
                     * Actual viewport when pinch-zooming
-
                     * [Demo](https://visual-viewport.glitch.me/)
                     * [Article](https://developers.google.com/web/updates/2017/09/visual-viewport-api)
                     * [Spec](https://wicg.github.io/visual-viewport/)
@@ -466,23 +469,25 @@ usp.getAll("foo"); // ["bar", "baz"]
             </section>
             
             
-            <section>
-                <section data-markdown>
-                    ## Where to Find Them
-                    
-                    * WHATWG
-                        * [Repository](https://github.com/whatwg)
-                        * [Mailing list](https://whatwg.org/mailing-list)
-                        * [Incubator Repository](https://github.com/WICG)
+            <section data-markdown>
+                ## Where to Find Them
 
-                    * Vendors
-                        * [Firefox Release notes](https://www.mozilla.org/en-US/firefox/releases/)
-                        * [Chrome Platform Status](https://www.chromestatus.com)
-                        * [Google Dev Updates](https://developers.google.com/web/updates/)
-                    
-                    * Community
-                      * :)
-               </section> 
+                * WHATWG
+                    * [Repository](https://github.com/whatwg)
+                    * [Mailing list](https://whatwg.org/mailing-list)
+                    * [Incubator Repository](https://github.com/WICG)
+                * [MDN](https://developer.mozilla.org/en-US/docs/Web/API)
+                * Vendors
+                    * [Firefox Release notes](https://www.mozilla.org/en-US/firefox/releases/)
+                    * [Chrome Platform Status](https://www.chromestatus.com)
+                    * [Google Dev Updates](https://developers.google.com/web/updates/)
+                * Community
+                    * :)
+            </section>
+            
+            <section>
+                <h1>Thank you</h1>
+                <p>Questions?</p>
             </section>
         </div>
     </div>
